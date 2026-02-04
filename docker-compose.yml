@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # Banco de Dados da Aplicação
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mensageria_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Broker de Mensagens
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672' # Porta de comunicação
+      - '15672:15672' # Interface Web de Gestão
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
+volumes:
+  pgdata:
