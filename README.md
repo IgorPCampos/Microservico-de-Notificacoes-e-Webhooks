@@ -4,25 +4,23 @@ Este projeto é um microsserviço responsável pelo gerenciamento e envio de not
 
 ---
 
-## 🏗 Arquitetura
+## Arquitetura
 
 Tecnologias usadas: Nest, RabbitMQ, Docker, gRPC, PostgreSQL e KrakenD|
 
-## 📦 Instalação e Execução
-
-Siga os comandos abaixo para instalar as dependências e iniciar a aplicação.
+## Instalação e Execução
 
 ### Instalação das Dependências
 npm install
 
-# Subir a Infraestrutura (Docker)
+### Subir a Infraestrutura (Docker)
 docker-compose up
 
-# 🛠 Desenvolvimento (Watch Mode)
+### Desenvolvimento (Watch Mode)
 npm run start:dev
 
-# Execução Simples
+### Execução Simples
 npm run start
 
-# Testes Unitários (Foco em TDD)
+### Testes Unitários (Foco em TDD)
 npm run test

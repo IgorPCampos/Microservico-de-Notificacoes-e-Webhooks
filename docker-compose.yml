@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Banco de Dados da Aplicação
   postgres:
     image: postgres:15-alpine
     environment:
@@ -13,12 +12,12 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  # Broker de Mensagens
+  
   rabbitmq:
     image: rabbitmq:3-management
     ports:
-      - '5672:5672' # Porta de comunicação
-      - '15672:15672' # Interface Web de Gestão
+      - '5672:5672'
+      - '15672:15672' 
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin

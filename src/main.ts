@@ -1,22 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { ConfigService } from '@nestjs/config';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
-  const appContext = await NestFactory.createApplicationContext(AppModule);
-  const configService = appContext.get(ConfigService);
-
-  const rmqUrl = configService.getOrThrow<string>('RABBITMQ_URL');
-  const queueName = configService.getOrThrow<string>('RABBITMQ_QUEUE');
+  const logger = new Logger('Main');
 
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
       transport: Transport.RMQ,
       options: {
-        urls: [rmqUrl],
-        queue: queueName,
+        urls: [process.env.RABBITMQ_URL as string],
+        queue: process.env.RABBITMQ_QUEUE,
         queueOptions: {
           durable: false,
         },
@@ -24,9 +20,7 @@ async function bootstrap() {
     },
   );
 
-  await appContext.close();
-
   await app.listen();
-  console.log(`Microservice ouvindo na fila: ${queueName}`);
+  logger.log(`🚀 Microservice ouvindo na fila: ${process.env.RABBITMQ_QUEUE}`);
 }
 bootstrap();
