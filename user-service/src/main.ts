@@ -34,9 +34,8 @@ async function bootstrap() {
       email: 'teste@teste.com',
       name: 'Usuário Teste Real',
     });
-    console.log('🌱 Seed: Usuário de teste inserido no Postgres!');
   }
 
-  console.log(`🚀 User Service odando com PostgreSQL na porta ${port}`);
+  console.log(`User Service rodando com PostgreSQL na porta ${port}`);
 }
 bootstrap();

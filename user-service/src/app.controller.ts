@@ -19,7 +19,6 @@ export class AppController {
 
     if (user) {
       const result = { is_valid: true, id: user.id, name: user.name };
-      console.log(`User validated: ${JSON.stringify(result)}`);
       return result;
     } else {
       return { is_valid: false, id: '', name: '' };

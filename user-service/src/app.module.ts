@@ -18,7 +18,7 @@ import { User } from './user.entity';
         password: configService.get<string>('DB_PASS'),
         database: configService.get<string>('DB_NAME'),
         entities: [User],
-        synchronize: true, // Apenas para desenvolvimento!
+        synchronize: true,
       }),
     }),
     TypeOrmModule.forFeature([User]),
