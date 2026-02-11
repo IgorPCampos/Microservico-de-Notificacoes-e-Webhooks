@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mensageria_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - '3000:3000'
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
+
+  notification-service:
+    build: ./notification-service
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: amqp://admin:admin@rabbitmq:5672
+      GRPC_USER_PORT: 50051
+
+  user-service:
+    build: ./user-service
+    ports:
+      - '50051:50051'
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_USER: admin
+      DB_PASS: password
+      DB_NAME: mensageria_db
+
+volumes:
+  pgdata:

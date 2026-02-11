@@ -10,7 +10,7 @@ import { USER_VALIDATOR_PORT } from './domain/ports/user-validator.port';
 
 const PROTO_PATH = join(
   process.cwd(),
-  'dist/notification/domain/proto/user-service.proto',
+  'dist/notification/domain/proto/notification-service.proto',
 );
 
 @Module({
@@ -25,9 +25,11 @@ const PROTO_PATH = join(
           options: {
             package: 'user',
             protoPath: PROTO_PATH,
-            url: `localhost:${configService.get('GRPC_USER_PORT')}`,
+            url: configService.get('USER_GRPC_URL') as string,
             loader: {
               keepCase: true,
+              defaults: true,
+              oneofs: true,
             },
           },
         }),

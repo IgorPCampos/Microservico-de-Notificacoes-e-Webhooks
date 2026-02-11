@@ -26,9 +26,14 @@ export class GrpcUserService implements UserValidatorPort, OnModuleInit {
     try {
       const observable = this.grpcService.validateUser({ email });
       const result = await firstValueFrom(observable);
+      console.log('CONTEÚDO RECEBIDO DO GRPC:', result);
 
+      const isValid =
+        result.is_valid === true || (result.id && result.id.length > 0);
+
+      console.log('isValid:', isValid);
       return {
-        isValid: result.is_valid,
+        isValid: !!isValid,
         name: result.name,
       };
     } catch (error) {
