@@ -7,6 +7,7 @@ import { SendGridService } from './infrastructure/services/sendgrid.service';
 import { GrpcUserService } from './infrastructure/services/grpc-user.service';
 import { EMAIL_SENDER_PORT } from './domain/ports/email-sender.port';
 import { USER_VALIDATOR_PORT } from './domain/ports/user-validator.port';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 const PROTO_PATH = join(
   process.cwd(),
@@ -15,6 +16,10 @@ const PROTO_PATH = join(
 
 @Module({
   imports: [
+    PrometheusModule.register(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ClientsModule.registerAsync([
       {
         name: 'USER_PACKAGE',
