@@ -7,7 +7,7 @@ import { User } from './user.entity';
 
 async function bootstrap() {
   const port = process.env.GRPC_USER_PORT;
-
+  const emailUser = process.env.SMTP_USER;
   const app = await NestFactory.create(AppModule);
 
   app.connectMicroservice<MicroserviceOptions>({
@@ -24,13 +24,13 @@ async function bootstrap() {
   const dataSource = app.get(DataSource);
   const userRepository = dataSource.getRepository(User);
   const userExists = await userRepository.findOne({
-    where: { email: 'teste@teste.com' },
+    where: { email: emailUser },
   });
 
   if (!userExists) {
     await userRepository.save({
-      email: 'teste@teste.com',
-      name: 'Usuário Teste Real',
+      email: emailUser,
+      name: 'Usuário Real',
     });
   }
 

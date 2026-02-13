@@ -3,7 +3,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NotificationController } from './transport/controllers/notification.controller';
-import { SendGridService } from './infrastructure/services/sendgrid.service';
+import { EmailService } from './infrastructure/services/email.service';
 import { GrpcUserService } from './infrastructure/services/grpc-user.service';
 import { EMAIL_SENDER_PORT } from './domain/ports/email-sender.port';
 import { USER_VALIDATOR_PORT } from './domain/ports/user-validator.port';
@@ -43,7 +43,7 @@ const PROTO_PATH = join(
   ],
   controllers: [NotificationController],
   providers: [
-    { provide: EMAIL_SENDER_PORT, useClass: SendGridService },
+    { provide: EMAIL_SENDER_PORT, useClass: EmailService },
     { provide: USER_VALIDATOR_PORT, useClass: GrpcUserService },
   ],
 })

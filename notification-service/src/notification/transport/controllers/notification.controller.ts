@@ -24,8 +24,6 @@ export class NotificationController {
 
   @EventPattern('send_email')
   async handleSendEmail(@Payload() data: SendEmailDto) {
-    this.logger.log(`Nova mensagem recebida para: ${data.to}`);
-
     const validation = await this.userValidator.validate(data.to);
 
     if (!validation.isValid) {
@@ -35,9 +33,10 @@ export class NotificationController {
       return;
     }
 
-    this.logger.log(
-      `Usuário validado: ${validation.name || 'Desconhecido'}. Enviando...`,
-    );
-    await this.emailService.send(data);
+    await this.emailService.send({
+      to: data.to,
+      subject: data.subject,
+      body: data.body,
+    });
   }
 }
